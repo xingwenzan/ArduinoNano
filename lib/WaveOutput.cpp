@@ -9,7 +9,6 @@ void setup() {
 // write your initialization code here
     Serial.begin(9600);
     Serial.println("请输入数据: ");
-    pinMode(11, OUTPUT);
 }
 
 void loop() {
