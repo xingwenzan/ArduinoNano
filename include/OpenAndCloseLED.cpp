@@ -16,9 +16,9 @@ void loop() {
     if (Serial.available()){
         op = Serial.readString();
         Serial.println(op);
-        if (op.compareTo("NO\r")==0){
+        if (op.compareTo("ON\r")==0){
             digitalWrite(LED_BUILTIN,HIGH);
-            Serial.println("NO");
+            Serial.println("ON");
         }
         if (op.compareTo("OFF\r")==0){
             digitalWrite(LED_BUILTIN,LOW);
