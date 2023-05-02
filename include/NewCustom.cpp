@@ -10,7 +10,7 @@ float defaultWaveFreq = 1000.0;  // 波形频率，默认为1kHz
 float defaultWaveDc = 0.0;   // 波形直流分量，默认为0
 float defaultWaveAmpl = 1.0; // 波形幅值，默认为1
 int defaultWaveSamples = 128; // 波形数据采样率，默认为100个样本点
-char defaultPhoto = '0';   // 输出图像，默认原图
+int defaultPhoto = 0;   // 输出图像，默认原图
 
 // 定义变量
 char waveType = defaultWaveType;
@@ -18,75 +18,39 @@ float waveFreq = defaultWaveFreq;
 float waveDc = defaultWaveDc;
 float waveAmpl = defaultWaveAmpl;
 int waveSamples = defaultWaveSamples;
-char photo = defaultPhoto;
+int photo = defaultPhoto;
 double wave[128];
 int idx = 0;
 
-
-void parameterRead(const String &string) {   // 参数输入
-    digitalWrite(LED_BUILTIN, HIGH);
-    // 初始化参数
-    waveType = defaultWaveType;
-    waveFreq = defaultWaveFreq;
-    waveDc = defaultWaveDc;
-    waveAmpl = defaultWaveAmpl;
-    waveSamples = defaultWaveSamples;
-    photo = defaultPhoto;
-    // 解析输入命令
-    int parameter = 0;   //正在输入的参数 0~5 分别对应变量定义里的六个参数
-    String tmp = "";
-    for (auto item: string) {
-        if (item == ' ') {
-            switch (parameter) {
-                case 0:
-                    waveType = tmp[tmp.length() - 1];
-                    break;
-                case 1:
-                    waveFreq = tmp.toFloat();
-                    break;
-                case 2:
-                    waveDc = tmp.toFloat();
-                    break;
-                case 3:
-                    waveAmpl = tmp.toFloat();
-                    break;
-                case 4:
-                    waveSamples = (int) tmp.toFloat();
-                    break;
-                case 5:
-                    photo = tmp[tmp.length() - 1];
-                    break;
-                default:
-                    break;
-            }
-            parameter++;
-            tmp = "";
-        } else if (isdigit(item) || item == '.' || item == '-') {
-            tmp += item;
-        }
-    }
-    Serial.println(photo);
-    delay(10000);
-    digitalWrite(LED_BUILTIN, LOW);
+int freeMemory() {   // 查看剩余内存,最好永远不要用上
+    extern int __heap_start, *__brkval;
+    int v;
+    return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 }
 
-void fft() {
-    double vReal[idx], vImag[idx];
-    for (int i = 0; i < idx; i++) {
-        vReal[i] = wave[i];
-        vImag[i] = 0;
-    }
-    arduinoFFT FFT = arduinoFFT();
-    // 加窗，使用汉明窗
-    FFT.Windowing(vReal, waveSamples, FFT_WIN_TYP_HAMMING, FFT_FORWARD);
-    // 执行FFT
-    FFT.Compute(vReal, vImag, idx, FFT_FORWARD);
-    // 获取幅度
-    FFT.ComplexToMagnitude(vReal, vImag, idx);
-    // 输出频谱图
-    for (int i = 0; i < (idx / 2); i++) {
-        Serial.println((i * waveFreq) / idx);
-        Serial.println(vReal[i] * 2 / idx);
+void fft() {   // 结果有误
+    // 初始化 FFT 对象
+    double vImag[waveSamples];
+    memset(vImag,0,waveSamples * sizeof(double));
+    arduinoFFT FFT = arduinoFFT(wave, vImag, waveSamples, waveFreq);
+//    int availableMemory = freeMemory();
+//    Serial.print("Free memory: ");
+//    Serial.print(availableMemory);
+//    Serial.println(" bytes");
+    /* 对数据执行 FFT */
+    FFT.Windowing(FFT_WIN_TYP_HAMMING, FFT_FORWARD);
+    FFT.Compute(FFT_FORWARD);
+    FFT.ComplexToMagnitude();
+
+//    Serial.print("Free memory: ");
+//    Serial.print(availableMemory);
+//    Serial.println(" bytes");
+    /* 输出频谱图数据到串口绘图器 */
+    for (int i = 0; i < (waveSamples>>1); i++) {
+//        double frequency = (i * 1.0 * waveFreq) / waveSamples;
+//        Serial.print(frequency);
+//        Serial.print(",");
+        Serial.println(wave[i]);
     }
 }
 
@@ -106,8 +70,7 @@ void getWave() {
 }
 
 void draw() {
-    Serial.println(photo);
-    if (photo == '0') {
+    if (photo==0) {
         digitalWrite(LED_BUILTIN, LOW);
         for (int i = 0; i < idx; ++i) {
             Serial.println(wave[i]);
@@ -116,6 +79,58 @@ void draw() {
         digitalWrite(LED_BUILTIN, HIGH);
         fft();
     }
+}
+
+void parameterRead(const String &string) {   // 参数输入
+    digitalWrite(LED_BUILTIN, HIGH);
+    // 初始化参数
+    waveType = defaultWaveType;
+    waveFreq = defaultWaveFreq;
+    waveDc = defaultWaveDc;
+    waveAmpl = defaultWaveAmpl;
+    waveSamples = defaultWaveSamples;
+    photo = defaultPhoto;
+    // 解析输入命令
+    int parameter = 0;   //正在输入的参数 0~5 分别对应变量定义里的六个参数
+    String tmp = "";
+    for (auto item: string) {
+        if (item == ' ' || item=='\r') {
+            switch (parameter) {
+                case 0:
+                    waveType = tmp[tmp.length() - 1];
+//                    Serial.println(tmp);
+                    break;
+                case 1:
+                    waveFreq = tmp.toFloat();
+//                    Serial.println(tmp);
+                    break;
+                case 2:
+                    waveDc = tmp.toFloat();
+//                    Serial.println(tmp);
+                    break;
+                case 3:
+                    waveAmpl = tmp.toFloat();
+//                    Serial.println(tmp);
+                    break;
+                case 4:
+                    waveSamples = (int) tmp.toFloat();
+//                    Serial.println(tmp);
+                    break;
+                case 5:   // 不知道为啥，始终无法进来
+                    photo = (int) tmp.toFloat();
+//                    Serial.println(tmp);
+                    break;
+                default:
+                    break;
+            }
+            parameter++;
+            tmp = "";
+        } else if (isdigit(item) || item == '.' || item == '-') {
+            tmp += item;
+        }
+    }
+    delay(10000);
+    digitalWrite(LED_BUILTIN, LOW);
 }
 
 void setup() {
@@ -135,8 +150,4 @@ void loop() {
     // 获取波
     getWave();
     draw();
-    // 在这里将波形数据发送回计算机端，并输出到串口
-//    for (int i = 0; i < idx; i++) {
-//        Serial.println(wave[i]);
-//    }
 }
