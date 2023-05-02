@@ -7,6 +7,7 @@
 // 定义默认参数
 char defaultWaveType = '0';  // 波形类型，默认为正弦波
 float defaultWaveFreq = 1000.0;  // 波形频率，默认为1kHz
+float defaultSamplingFreq = 10000.0; // 采样频率，默认为10kHz
 float defaultWaveDc = 0.0;   // 波形直流分量，默认为0
 float defaultWaveAmpl = 1.0; // 波形幅值，默认为1
 int defaultWaveSamples = 128; // 波形数据采样率，默认为100个样本点
@@ -15,6 +16,7 @@ int defaultPhoto = 0;   // 输出图像，默认原图
 // 定义变量
 char waveType = defaultWaveType;
 float waveFreq = defaultWaveFreq;
+float samplingFreq = defaultSamplingFreq;
 float waveDc = defaultWaveDc;
 float waveAmpl = defaultWaveAmpl;
 int waveSamples = defaultWaveSamples;
@@ -32,7 +34,7 @@ void fft() {   // 结果有误
     // 初始化 FFT 对象
     double vImag[waveSamples];
     memset(vImag,0,waveSamples * sizeof(double));
-    arduinoFFT FFT = arduinoFFT(wave, vImag, waveSamples, waveFreq);
+    arduinoFFT FFT = arduinoFFT(wave, vImag, waveSamples, samplingFreq);
 //    int availableMemory = freeMemory();
 //    Serial.print("Free memory: ");
 //    Serial.print(availableMemory);
@@ -47,22 +49,31 @@ void fft() {   // 结果有误
 //    Serial.println(" bytes");
     /* 输出频谱图数据到串口绘图器 */
     for (int i = 0; i < (waveSamples>>1); i++) {
-//        double frequency = (i * 1.0 * waveFreq) / waveSamples;
+//        double frequency = (i * 1.0 * samplingFreq) / waveSamples;
 //        Serial.print(frequency);
 //        Serial.print(",");
         Serial.println(wave[i]);
     }
+//    Serial.println(FFT.MajorPeak());
+//    while (1);
 }
 
 void getWave() {
     idx = 0;
     for (int i = 0; i < waveSamples; i++) {
-        float t = (float) i / waveFreq / waveSamples;  // 计算当前时间
+        float t = (float) i / samplingFreq;  // 计算当前时间
         double v = waveDc;  // 加上直流分量
         if (waveType == '0') {   // 正弦波
             v += sin(2 * PI * t * waveFreq) * waveAmpl;
         } else if (waveType == '1') {   // 方波
-            v += waveAmpl * (t * waveFreq < 0.5 ? -1 : 1);
+            v += waveAmpl * (fmod(t * waveFreq, 1) < 0.5 ? -1 : 1);
+        }else if (waveType == '2') {   // 三角波
+            double trianglePhase = fmod(t * waveFreq, 1);
+            v += waveAmpl * (2 * fabs(2 * trianglePhase - 1) - 1);
+//            v += waveAmpl * (trianglePhase < 0.5 ? 4 * trianglePhase - 1 : 3 - 4 * trianglePhase);
+        } else if (waveType == '3') {   // 锯齿波
+            double sawtoothPhase = fmod(t * waveFreq, 1);
+            v += waveAmpl * (2 * sawtoothPhase - 1);
         }
         wave[idx++] = v;
 //        Serial.println(v);
@@ -105,18 +116,21 @@ void parameterRead(const String &string) {   // 参数输入
 //                    Serial.println(tmp);
                     break;
                 case 2:
+                    samplingFreq = tmp.toFloat();
+                    break;
+                case 3:
                     waveDc = tmp.toFloat();
 //                    Serial.println(tmp);
                     break;
-                case 3:
+                case 4:
                     waveAmpl = tmp.toFloat();
 //                    Serial.println(tmp);
                     break;
-                case 4:
+                case 5:
                     waveSamples = (int) tmp.toFloat();
 //                    Serial.println(tmp);
                     break;
-                case 5:   // 不知道为啥，始终无法进来
+                case 6:
                     photo = (int) tmp.toFloat();
 //                    Serial.println(tmp);
                     break;
