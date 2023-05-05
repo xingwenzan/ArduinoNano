@@ -97,6 +97,7 @@ void parameterRead(const String &string) {   // 参数输入
     // 初始化参数
     waveType = defaultWaveType;
     waveFreq = defaultWaveFreq;
+    samplingFreq = defaultSamplingFreq;
     waveDc = defaultWaveDc;
     waveAmpl = defaultWaveAmpl;
     waveSamples = defaultWaveSamples;
