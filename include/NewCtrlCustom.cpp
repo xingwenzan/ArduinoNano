@@ -234,31 +234,31 @@ void parameterRead() {   // 参数输入
                     switch (parameter) {
                         case 0:
                             waveType = tmp[tmp.length() - 1]-'0';
-                            Serial.println(waveType);
+//                            Serial.println(waveType);
                             break;
                         case 1:
                             waveFreq = tmp.toFloat();
-                            Serial.println(waveFreq);
+//                            Serial.println(waveFreq);
                             break;
                         case 2:
                             samplingFreq = tmp.toFloat();
-                            Serial.println(samplingFreq);
+//                            Serial.println(samplingFreq);
                             break;
                         case 3:
                             waveDc = tmp.toFloat();
-                            Serial.println(waveDc);
+//                            Serial.println(waveDc);
                             break;
                         case 4:
                             waveAmpl = tmp.toFloat();
-                            Serial.println(waveAmpl);
+//                            Serial.println(waveAmpl);
                             break;
                         case 5:
                             waveSamples = (int) tmp.toFloat();
-                            Serial.println(waveSamples);
+//                            Serial.println(waveSamples);
                             break;
                         case 6:
                             photo = (int) tmp.toFloat();
-                            Serial.println(photo);
+//                            Serial.println(photo);
                             break;
                         default:
                             break;
