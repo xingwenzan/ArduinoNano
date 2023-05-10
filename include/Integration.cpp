@@ -67,6 +67,9 @@ int idx = 0;
 Time alarmClockOn;   // 闹钟开启时间
 Time alarmClockOff;   // 闹钟关闭时间
 
+// 秤称重
+int weight = 0;
+
 // 功能模式
 int feature = 0;
 
@@ -161,6 +164,27 @@ String parameterRead() {
                 default:
                     break;
             }
+        }
+    }
+}
+
+// 功能选择方法
+int featureSelection() {
+    lcd.setCursor(0, 0);
+    lcd.print("Catalogs");
+    int i = 0;
+    lcd.setCursor(0, 1);
+    lcd.print(functionList[i]);
+    while (true) {
+        char key = keypad.getKey();
+        if (key == '#') {
+            return i;
+        } else if (key=='*') {
+            lcd.setCursor(0, 1);
+            lcd.print("                ");
+            i = (i + 1) % 5;
+            lcd.setCursor(0, 1);
+            lcd.print(functionList[i]);
         }
     }
 }
@@ -292,34 +316,15 @@ void waveSet() {
     }
 }
 
-// 功能选择方法
-int featureSelection() {
-    lcd.setCursor(0, 0);
-    lcd.print("Catalogs");
-    int i = 0;
-    lcd.setCursor(0, 1);
-    lcd.print(functionList[i]);
-    while (true) {
-        char key = keypad.getKey();
-        if (key == '#') {
-            return i;
-        } else if (key=='*') {
-            lcd.setCursor(0, 1);
-            lcd.print("                ");
-            i = (i + 1) % 5;
-            lcd.setCursor(0, 1);
-            lcd.print(functionList[i]);
-        }
-    }
-}
-
 // 模拟秤功能
 void analogScale(){
     lcd.setCursor(0,1);
-    int weight = analogRead(A3);
+    int tmp = analogRead(A3);
+    // 电位器电压不稳，出此下策
+    if(abs(weight-tmp)>25){weight = tmp;}
+    lcd.print("Weight: ");
     lcd.print(weight);
-    lcd.print(" g");
-    lcd.print("     ");
+    lcd.print(" g  ");
     delay(500);
 }
 
