@@ -170,6 +170,7 @@ String parameterRead() {
 
 // 功能选择方法
 int featureSelection() {
+    lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Catalogs");
     int i = 0;
@@ -260,6 +261,7 @@ void waveSet() {
     int parameter = 0;   //正在输入的参数 0~6 分别对应变量定义里的七个参数
     while (parameter <= 6) {
         // lcd 显示当前正在读取的参数
+        lcd.clear();
         lcd.setCursor(0, 0);
         switch (parameter) {
             case 0:
