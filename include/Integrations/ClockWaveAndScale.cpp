@@ -1,7 +1,7 @@
 #include "Arduino.h"
-#include "../lib/LiquidCrystal_I2C/LiquidCrystal_I2C.h"
-#include "../lib/Keypad/src/Keypad.h"
-#include "../lib/arduinoFFT/src/arduinoFFT.h"
+#include "../../lib/LiquidCrystal_I2C/LiquidCrystal_I2C.h"
+#include "../../lib/Keypad/src/Keypad.h"
+#include "../../lib/arduinoFFT/src/arduinoFFT.h"
 
 typedef struct {
     int waveType;

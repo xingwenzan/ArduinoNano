@@ -1,9 +1,9 @@
 //
 // Created by 86159 on 2023-05-05.
 //
-#include "../lib/arduinoFFT/src/arduinoFFT.h"
-#include "../lib/Keypad/src/Keypad.h"
-#include "../lib/LiquidCrystal_I2C/LiquidCrystal_I2C.h"
+#include "../../lib/arduinoFFT/src/arduinoFFT.h"
+#include "../../lib/Keypad/src/Keypad.h"
+#include "../../lib/LiquidCrystal_I2C/LiquidCrystal_I2C.h"
 
 // 定义波形默认参数
 int defaultWaveType = 0;  // 波形类型，默认为正弦波

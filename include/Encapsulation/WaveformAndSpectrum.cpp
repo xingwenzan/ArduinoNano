@@ -2,7 +2,7 @@
 // Created by 86159 on 2023-05-01.
 //
 #include <Arduino.h>
-#include "..\lib\arduinoFFT\src\arduinoFFT.h"
+#include "../../lib/arduinoFFT/src/arduinoFFT.h"
 
 // 定义默认参数
 char defaultWaveType = '0';  // 波形类型，默认为正弦波
