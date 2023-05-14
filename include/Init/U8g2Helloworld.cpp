@@ -2,7 +2,7 @@
 // Created by 86159 on 2023-05-13.
 //
 #include <Arduino.h>
-#include "../../lib/U8g2_Arduino/src/U8g2lib.h"
+#include "../lib/U8g2_Arduino/src/U8g2lib.h"
 
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
