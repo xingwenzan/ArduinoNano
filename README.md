@@ -31,3 +31,4 @@
     - [新控制自定义波形串口输出 - 键盘屏幕控制](include/Encapsulation/NewCtrlCustom.cpp)
   - [集成度较高型程序](include/Integrations)
     - [集成目录 - 时钟、闹钟、调时、串口波形发生、模拟秤](include/Integrations/ClockWaveAndScale.cpp)
+    - [数字显示](include/Integrations/DigitalDisplay.cpp)

@@ -1,8 +1,8 @@
 //
 // Created by 86159 on 2023-05-13.
 //
-#include "../../lib/TM1638/src/TM1638.h"
-#include "../../lib/U8g2_Arduino/src/U8g2lib.h"
+#include "../lib/TM1638/src/TM1638.h"
+#include "../lib/U8g2_Arduino/src/U8g2lib.h"
 
 //choose digital pins compatibles with your board
 #define STB 7 // Strobe digital pin
