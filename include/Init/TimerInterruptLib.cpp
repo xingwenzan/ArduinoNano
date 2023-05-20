@@ -1,7 +1,7 @@
 //
 // Created by 86159 on 2023-05-17.
 //
-#include "../../lib/TimerOne/TimerOne.h"
+#include "../lib/TimerOne/TimerOne.h"
 
 void callback() {
     Serial.println("Timer1 overflow interrupt triggered.");

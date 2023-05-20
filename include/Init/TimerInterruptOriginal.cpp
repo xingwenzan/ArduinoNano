@@ -1,3 +1,8 @@
+//
+// Created by 86159 on 2023-05-20.
+// https://blog.csdn.net/TarshinHUANG/article/details/99580738
+// https://blog.csdn.net/linZinan_/article/details/127832771
+//
 #include "Arduino.h"
 
 volatile byte ledState = LOW;
