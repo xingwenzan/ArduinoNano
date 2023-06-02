@@ -1,3 +1,7 @@
+//
+// Created by 86159 on 2023-06-02.
+// 方波测频   信号发生部分
+//
 #include <Arduino.h>
 int i = HIGH;
 

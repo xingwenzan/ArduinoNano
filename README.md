@@ -39,4 +39,5 @@
     - [数字显示](include/Integrations/DigitalDisplay.cpp)
   - [通信类程序](include/Communication) &#x2002; 与 MSP432P401R 通信运行的程序，程序另一半见 MSP432P401R 项目同名程序
     - [LED 闪烁及串口通信](include/Communication/LedBlinkAndSerial.cpp)
+    - [方波测频](include/Communication/SquareWaveFrequencyMeasurement.cpp)
   - [未调节成功程序](include/Tmp)
