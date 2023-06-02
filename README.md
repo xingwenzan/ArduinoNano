@@ -37,4 +37,6 @@
   - [集成度较高型程序](include/Integrations)
     - [集成目录 - 时钟、闹钟、调时、串口波形发生、模拟秤](include/Integrations/ClockWaveAndScale.cpp)
     - [数字显示](include/Integrations/DigitalDisplay.cpp)
+  - [通信类程序](include/Communication) &#x2002; 与 MSP432P401R 通信运行的程序，程序另一半见 MSP432P401R 项目同名程序
+    - [LED 闪烁及串口通信](include/Communication/LedBlinkAndSerial.cpp)
   - [未调节成功程序](include/Tmp)
