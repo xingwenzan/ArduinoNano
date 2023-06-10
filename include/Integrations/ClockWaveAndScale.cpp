@@ -419,7 +419,7 @@ void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, LOW);
     // 初始化背光灯（闹钟）
-    pinMode(13, OUTPUT);
+    pinMode(13, INPUT);
 }
 
 void loop() {
