@@ -7,9 +7,10 @@ void setup(void) {
 }
 
 void loop(void) {
-    i=!i;
-    digitalWrite(13,i);
-    Serial.println(i);
-    delay(100);
+    double v;
+    for (int j = 0; j < 1000; ++j) {
+        v = 10*sin(j);
+        analogWrite(13,v);
+    }
 }
 

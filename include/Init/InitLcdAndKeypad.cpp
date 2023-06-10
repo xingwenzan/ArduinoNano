@@ -1,8 +1,8 @@
 //
 // Created by 86159 on 2023-05-05.
 //
-#include "../../lib/Keypad/src/Keypad.h"
-#include "../../lib/LiquidCrystal_I2C/LiquidCrystal_I2C.h"
+#include "../lib/Keypad/src/Keypad.h"
+#include "../lib/LiquidCrystal_I2C/LiquidCrystal_I2C.h"
 
 // 设置 1602 液晶显示屏的 I2C 地址，宽度和高度
 LiquidCrystal_I2C lcd(0x27, 16, 2);
