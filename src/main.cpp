@@ -1,13 +1,17 @@
-#include <Arduino.h>
+// Basic MD_AD9833 test file
+//
+// Initialises the device to default conditions
+//
+// Connect a pot to A0 to change the frequency by turning the pot
+//
+#include "Arduino.h"
 
-void setup(void) {
-    pinMode(A3,INPUT);
+void setup(void)
+{
     Serial.begin(9600);
 }
 
-void loop(void) {
-    int tmp = analogRead(A3);
-    Serial.println(tmp);
-    delay(1000);
+void loop(void)
+{
+    Serial.println(100);
 }
-
